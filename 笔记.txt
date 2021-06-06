@@ -1,0 +1,300 @@
+卡号：213462
+卡密：81097579
+SDK 软件开发包 就是库简单理解
+6670222700
+
+qt 安装中注意的问题：
+	tools->mingw730_64 ->> bin 配置环境变量 （G++ 编译代码）
+			->>lib 配置环境变量
+
+	mingw73_64->bin dll库 配置到环境里面去（Qt库）
+		   -》include  头文件 配置到环境里面去
+		->>lib .a文件  cmake Qt的各种组件 
+	
+
+	Cion 配置Qtcmakelist
+		导入第三方库 
+		1.导入头 ；include_directories()
+		2.导入库；set（）设置路径变量 需要记住
+		target_link() $(你导入的路径)$ 
+		3.加载环境变量
+		4.Toolschains 配置环境 clion下 qt-> tools ->mingw  就可以了
+		查文档：doc.qt.io	
+	
+	刷新界面的函数 update 
+
+	信号和槽 关键  connect 发出信号的人，发了一个什么样的信号 ，lamdb根据这个信号我们去执行什么样的操作。
+	
+	信号函数不用实现 信号只有头就可以 用的默认的 有必要加入编译
+	
+	想让资源文件解析-->> 要和程序打包到一起 图片 要写一个文件 qrc RCC文件写法 ，把qrc文件写到程序中去做编译
+	Qpixmap map(":/img/car")导入图片写法
+
+模板编程-->>>>类模板 函数模板 
+	可变参数函数+可变类型 前面要有一个函数重载无参的函数调用 也就地递归调用需要一个出口。
+	*定义对象之所以用<尖括号>，是因为你所创建的对象有用到定义的模板 template<typename T>类似的模板；
+
+	***容器是STL里面的东西 ***
+	顺序容器 关联容器 list无下标
+	function对象 是模板类；
+	bind 相当于包装了一个实体； 可你让那个对一些实体简单化有作用；
+	化散为整；函数 函数参数 函数对象； 线程同步是互斥锁解决。
+	锁 lock_guard 和unique_guard 是智能锁 后者可以主动自己去释放锁 前者没有这样的操作 条件变量配合线程使用
+
+机器人控制  和机械臂通讯 是和内部linux系统通讯 ur机器人编程语言 是另一门语言 上位机驱动
+gitignore 忽略文件 提交代码便捷 不需要重复提交的不提交 也就是不更改的内容不要要反复提交
+
+sql  oracle 学习一下
+create drop show  数据库不要去修改
+
+select cno,count(*) from stu where cno is null group by cno having count(*)<3;
+最复杂的查询的结构 select * from stu limit 0,3;浏览条数查询 
+
+alter table pro add foreign key(cno) references cat(cid);pro中的cno 要和cat中的cid一致；
+
+显示内联机 select * from pro inner join cat on pro.cno =cat.cid;
+隐士内联机 select * from pro,cat where cno=cid;
+
+select * from e,m where e.mgr =m.emno 
+create view t1 as 接你写的语句；
+
+视图也可以修改数据
+
+事务默认是一条语句是一个事务 如果要用需要开启事务 开启事务 执行语句 保存或者回滚
+ autocommit 、、、start transaction--提交 commit 或者 rollback 回滚
+
+查询所有内置命令：variables；
+
+修改隔离级别  set session transaction isolation level 
+	read uncommitted;
+查询隔离级别 select @@tx_isolation
+	事务并发出现的问题；
+	1.read uncommitted;  
+脏读：在一个使用者没有关闭一个事务时，处理内容还没确定时 就被另一个使用者拿到了数据；
+	
+	
+ 	 2.read committed；
+不可重复读：在数据没有提交之前 读的内容不会被别人看见你所修改的内容；
+	   两个人使用时候 可以读到别人已经提交的修改的内容；
+
+可重复读 ：两个事务同时修改在未提交前 数据的内容不会变化；
+	3.repetable read
+
+串行化 ： 一个事务在修改添加数据的时候 另一个事务部能做此操作 ；
+
+索引 ：
+内部结构是 b-tree  ：将中间的数作为树根，左边的是比树根小的，右边是比树根大的一种排列方式；平衡多路查找数树；
+
+创建索引：create index haha on tbig(name);sql 优化用到 经常查询的数据
+
+TOF相机 通过反射确定距离 kinect2 就是
+双目相机
+结构光相机 后外散斑打在物体上
+
+f/dx 相当于焦距转换成像素点的个数
+f/dy 相当于焦距转换成像素点的个数
+相机的内参标定
+ctrl+alt+m 抽取函数
+
+函数重载 是将函数参数 返回值发生变化
+函数重写是发生在class 继承的时候
+（
+knn 机器学习：
+1.评价数学模型的方式：（误差函数）
+	mae ：y=m*x+b 中 令：m =0，y与x之间的关系 最小绝对差---预测值-真实值的差 作和 就是mea误差函数
+	mse：最小平方差作和
+
+mse 与 b之间的关系函数显示  就称为梯度下降
+	   sklearn包装---线性回归  linear_model ->LinearRegression
+mse 矩阵写法：F.T *(F * W -Label)    W:先选定的预测值
+
+对求和求斜率不够熟悉 E（）也可以求斜率的
+
+learningrate 优化 就是让 我们的算法能够很快的计算到我们想要的结果。
+learningrate 调节方法有 adam adagrad RMSProp Momentum babysitting算法 保姆式
+
+优化算法：存储两次mse比较 如果这次比上一次大 那么 learningrate/2;
+	如果这次比上一次小 那么 learningrate *1.05 或者1.1
+如此反复 计算速度会加快。。
+
+2. 累计历史误差，用learningrare*累计历史误差和的开平方）都是属于回归问题的解决
+
+决策树 根 孩子  叶
+
+基尼系数 1-Epi**2 1-所有概率的平方和
+
+信息论： 概率中 2bit 为一个整体的‘1’； 商增信息量少
+
+分类 独热编码；softmax函数：e**y/(e**x+e**y+e**z)  神经网络网站
+
+熵： 混乱程度 概率小则 信息量小 熵就大 熵的计算是把概率相乘转化成log指数相加。
+熵的计算log概率*概率p/概率的个数取反（-）以2为底求的对数 熵值越小 信息量就越大  决策树分类分析的方法
+
+信息量= 父亲的熵-孩子的熵的和  是衡量事物变化程度的物理量
+
+随机深林--决策树种的一种算法 
+
+训练集精度略高测试集， 合适点 测试级可能已经高于训练集了
+
+感知机 就是m1*x1+m2*x2+b =0 决策边界去划分区域的分类 感知机 就是将m1，m2 想要离谁进就减去对方的左标
+
+逻辑回归就是分类的一种
+交叉熵 衡量两个部分差异大小的方式 交叉熵越小 说明预测的值越准确 预测概率 真实概率 之间的乘积
+百度众测 是一个执行标注的平台  越人工越智能。
+ann 人造神经网络 tensflow
+
+模型评估好坏：  贝叶斯原理
+
+求导 复合函数求导 把部分看成整体求导
+
+ 卷积神经网络 cnn ann加强版 训练自己去找到适合的卷积核
+
+卷积核 压缩数据 提取关键特征 
+
+步骤： 图片拿过来-->卷积核-->Relu层-->池化pooling 用到小格子方法类似考虑 (降采样 也就是进一步提取特征值 rgb中颜色值的数值)-->
+	-->flattening 打平 （也就是将数据转换成可以运算的数据集 1维数据）
+
+卷积层 就是提取不同的特征向量  深度 ：有多少个卷积核的特征提取器
+
+卷积之后图像的大小计算（I+2p-k）/S+1 (I:原始图像大小W和H，P：填充的行列数，S=步长，K=卷积核大小)
+	
+Dropout 解决过拟合 传播过程让某些神经元停下来不修改操作值 这样去避免过拟合
+
+混淆矩阵评价 误差 	可以看出预测错的数量 以及概率	
+
+数据收集  需要爬虫
+数据清洗  就是把收集到的数据有问题的干掉
+数据标注
+数据增强
+模型训练
+模型评估
+
+Google 训练  多文件传输小技巧  可以用git的命令
+
+调参大侠提升模型准确率： dropout 或者增加卷积层 pooling
+
+数据增强 如何增强： 图片数据的旋转 缩放 翻转 移动
+
+www.flyai.com
+kaggle 猫狗识别排行
+
+模型复杂 对应的数据要多 大
+
+优化可分网络模型 还有就是优化数据集 让数据足够多 并且都是准确的数据
+
+计算机视觉已经很成熟了：李飞飞---提供了一个imageNet 数据集 tf有各个平台以它为基础的一个数据集。
+	市面上常见的模型 
+ yolo 目标检测算法的一种  标注数据 label image软件标注
+
+qt 自编译1. qmake -project --> .pro 文件 修改 内部 QT+=widgets gui
+	2. qmake 一下 自动生成 makefile
+	3.编译 mingw32-make 
+
+shell脚本 bash
+export demo =222
+vim  .bashrc
+参数传递 可以在打开脚本时候的后面追加  参数0是脚本名称
+$+*列表 @列表 #参数个数 n 获取某个参数
+
+
+docs.opencv.org
+这里说的都是和继承有关的事情 ：如果没有继承 这些事情是不存在这样的问题的。
+
+多太 只存在继承关系链中 而且多太中父类需要是有虚函数修饰的函数 在程序运行的时候才会体现出多太来
+stu *s = new teacher（）； 如果stu是父亲 且内部有虚函数 则teacher 执行的是自己类里面的重写函数
+反过来写是错误的 
+	也就是说只能由父类 去定义孩子 ，或者说 等号左边的类比=右边的大 
+	在或者说 等号右边的一定是继承了=左边的一些机制。
+
+静态连边机制：在未编译时候 就知道要走那个函数了。
+动态联编机制：在程序运行阶段才知道要走那个函数。
+为了更灵敏的解决这个问题 我们就引进了virtual虚函数这个关键字，它就解决了上面的问题 就让静态联编变成了动态联编
+用父类的指针或者引用接子类对象：：：函数声明的时候尽可能用父类去声明；
+	好处：这就是虚函数的好处。 可以很好的避免创建多余的父亲 和孩子的对象 发生拷贝。
+
+虚函数中有虚拟的指针（地址）， 指向虚函数的表的地址，虚函数表里存放着虚函数的指针。 
+纯虚函数是抽象类 禁止创建对象的	
+
+指针不智能会出现的问题； 野指针  重复释放 内存泄漏
+
+红黑树实现原理
+
+git 的相关用法
+
+git init 初始化  设置一个工作区
+
+git status 查看现在目前的 工作区的提交状态
+
+git add . 把工作区中的所有内容都提交到临时记录区
+git add 【文件名称】把某个文件提交
+版本库和远程仓库不是一个
+git hub 新建仓库
+
+创建远程仓库
+
+git clone 远程仓库地址
+
+git remote add origin 远程仓库地址
+
+git push -u origin master
+
+
+gdb 快速入门
+
+g++ -g 你要编译的文件
+run r 执行
+quit 退出
+break' b （b main  b +行号）
+list 查看代码
+step s 走进某函数
+print p 打印变量 以及地址
+watchpoint
+
+调试core文件
+ulimit -a 查看被限制的文件
+ulimit -c unlimited 
+gdb  ./a.out  core.19761
+a.out & 后台执行
+
+gdb -silent 打印不能保证的信息
+
+set logging on 储存调试步骤
+set logging overwrite [on off]
+set logging debugredirect [on off]
+
+智能指针： 
+unique_ptr 唯一指针： 不允许拷贝 但是允许移动 是一个类 里面重载了一些函数 
+	reset 管理堆内存指针，也是手动释放的方法
+
+
+shared_ptr 共享指针 允许多个指针指向同一个位置 采用计数方式记录指向的指针个数
+	存在不析构的可能 因为在堆中可能你中有我我中有你 计数不能为0 了 这时候就需要weak_ptr
+weak_ptr 弱指针 将其中一个改成weak_ptr，
+	绑到一个shared_ptr上 但是不会增加计数 这就解决了 shared_ptr 的问题 
+
+链表原理：
+struck Node{ int value;
+	    struct Node *next}node;
+
+node *head=nullptr;
+int number;
+do
+{
+	cin>>number;
+	if(number!=-1)
+	{	node *p =(node*)malloc(sizeof(Node))
+		p.value =number;
+		p.next =null;
+		node *last= head;
+		if(last)
+		{
+		while(last.next)
+		
+			{
+				last.next =last;
+			}
+		}
+
+	}else{head =p;}	
+}while(numbei!=-1);
+
